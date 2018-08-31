@@ -33,14 +33,27 @@ def crear():
         return redirect('/home')
 
 
-@app.route('/curso/modificar/')
-def modificarCurso():
-    return render_template("curso/modificar.html")
+@app.route('/curso/modificar/', methods=['POST', 'GET'])
+def seleccionarCurso():
+    lista_cursos = Curso.getListaCurso()
+    return render_template("curso/modificar.html", lista_cursos=lista_cursos)
 
 
-@app.route('/curso/modificarCurso/')
+@app.route('/curso/modificarCurso/', methods=['POST', 'GET'])
 def modificar():
-    pass
+    idCurso = request.args.get("id")
+    curso = Curso.getCursoDB(idCurso)
+    return render_template("curso/modificacion.html", curso=curso)
+
+
+@app.route('/curso/modificado/', methods=['POST', 'GET'])
+def modificado():
+    idCurso = request.form["id"]
+    new_cod = request.form["codigo"]
+    curso = Curso.getCursoDB(idCurso)
+    curso.setCurso(new_cod)
+    curso.actualizarCurso()
+    return redirect(url_for("modificar"))
 
 
 if __name__ == '__main__':

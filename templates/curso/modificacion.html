@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div style="float: left; margin-left: 40%">
+        <form action="/curso/modificado/", method = "POST">
+            <input type="hidden" name="id" value="{{ curso.idCurso }}">
+            <fieldset>
+                 Codigo: <input type="text" name="codigo" value="" placeholder="Ingresa el nuevo codigo..."><br>
+                 <input type="Submit" value="Submit">
+            </fieldset>
+        </form>
+    </div>
+</body>
+</html>

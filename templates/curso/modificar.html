@@ -6,11 +6,21 @@
 </head>
 <body>
     <div style="float: left; margin-left: 40%">
-        <form action="/curso/modificarCurso/", method = "POST">
-            <fieldset>
-                 Codigo: <input type="text" name="codigo" value="" placeholder="Ingresa un nuevo codigo..."><br>
-                 <input type="Submit" value="Submit">
-            </fieldset>
+        <form action="/curso/modificarCurso/", method = "GET">
+             <table style="width:100%">
+                  <tr>
+                    <th>ID</th>
+                    <th>Codigo</th>
+                  </tr>
+                  {% for curso in lista_cursos %}
+                  <tr>
+                      <td> {{ curso.idCurso }} </td>
+                      <td> {{ curso.codigo }} </td>
+                      <td> <a href="/curso/modificarCurso/?id={{curso.idCurso}}">Modificar</a> </td>
+                  </tr>
+                  {% endfor %}
+
+             </table>
         </form>
     </div>
 </body>

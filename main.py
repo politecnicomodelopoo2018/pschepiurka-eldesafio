@@ -13,9 +13,15 @@ def opcion():
     return render_template("opcion.html")
 
 
+# CURSO
+
+
 @app.route('/curso/')
 def curso():
     return render_template("curso/curso.html")
+
+
+# CREAR CURSO
 
 
 @app.route('/curso/crear/')
@@ -33,27 +39,44 @@ def crear():
         return redirect('/home')
 
 
-@app.route('/curso/modificar/', methods=['POST', 'GET'])
+# MOSTRAR CURSO
+
+
+@app.route('/curso/mostrar/', methods=['POST', 'GET'])
 def seleccionarCurso():
     lista_cursos = Curso.getListaCurso()
-    return render_template("curso/modificar.html", lista_cursos=lista_cursos)
+    return render_template("curso/mostrar.html", lista_cursos=lista_cursos)
+
+
+# MODIFICAR CURSO
 
 
 @app.route('/curso/modificarCurso/', methods=['POST', 'GET'])
 def modificar():
-    idCurso = request.args.get("id")
+    idCurso = int(request.args.get("id"))
     curso = Curso.getCursoDB(idCurso)
     return render_template("curso/modificacion.html", curso=curso)
 
 
-@app.route('/curso/modificado/', methods=['POST', 'GET'])
+@app.route('/curso/modificado/', methods=['POST'])
 def modificado():
     idCurso = request.form["id"]
     new_cod = request.form["codigo"]
-    curso = Curso.getCursoDB(idCurso)
+    curso = Curso.getCursoDB(int(idCurso))
     curso.setCurso(new_cod)
     curso.actualizarCurso()
-    return redirect(url_for("modificar"))
+    return redirect("/curso/mostrar")
+
+
+# ELIMINAR CURSO
+
+
+@app.route('/curso/eliminarCurso/')
+def eliminarCurso():
+    idCurso = int(request.args.get("id"))
+    curso = Curso.getCursoDB(idCurso)
+    curso.eliminarCurso()
+    return redirect("/curso/mostrar")
 
 
 if __name__ == '__main__':

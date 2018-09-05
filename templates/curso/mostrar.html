@@ -4,7 +4,13 @@
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
-<body>
+<body style="text-align:center">
+    {% if lista_cursos == false %}
+    <p>
+        <h1>Cursos no tiene datos ingresados</h1>
+        <a href="/curso/">Volver</a>
+    </p>
+    {% else %}
     <div style="float: left; margin-left: 40%">
         <form action="/curso/modificarCurso/", method = "GET">
              <table style="width:100%">
@@ -17,11 +23,16 @@
                       <td> {{ curso.idCurso }} </td>
                       <td> {{ curso.codigo }} </td>
                       <td> <a href="/curso/modificarCurso/?id={{curso.idCurso}}">Modificar</a> </td>
+                      <td> <a onclick="return confirm('Estas seguro de eliminar el curso {{curso.codigo}}?')" href="/curso/eliminarCurso/?id={{curso.idCurso}}">Eliminar</a></td>
                   </tr>
                   {% endfor %}
-
              </table>
+             <p>
+                 <a href="/curso/">Volver</a>
+             </p>
         </form>
     </div>
+    {% endif %}
 </body>
+
 </html>

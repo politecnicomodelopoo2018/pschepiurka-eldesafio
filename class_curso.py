@@ -42,7 +42,7 @@ class Curso(object):
         curs_dictionary_fetch = curs_dictionary.fetchall()
 
         if len(curs_dictionary_fetch) == 0:
-            return False
+            return temp_curs_list
 
         for curse in curs_dictionary_fetch:
             temp_curs = Curso()

@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Curso - Lista</title>
 </head>
 <body style="text-align:center">
-    {% if lista_cursos == false %}
+    {% if lista_cursos|length == 0 %}
     <p>
         <h1>Cursos no tiene datos ingresados</h1>
         <a href="/curso/">Volver</a>

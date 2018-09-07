@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Alumno - Lista</title>
+</head>
+<body style="text-align:center">
+    {% if ver_curso == 0 %}
+    <p>
+        <h1>Cursos no tiene datos ingresados</h1>
+        <a href="/alumno/">Volver</a>
+    </p>
+    {% elif lista_alumnos|length == 0 %}
+    <p>
+        <h1>Alumno no tiene datos ingresados</h1>
+        <a href="/alumno/">Volver</a>
+    </p>
+    {% else %}
+    <div style="float: left; margin-left: 40%">
+        <form action="/alumno/modificarAlumno/", method = "GET">
+             <table style="width:100%">
+                  <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>Fecha Nacimiento</th>
+                    <th>Curso</th>
+                  </tr>
+                  {% for alumno in lista_alumnos %}
+                  <tr>
+                      <td> {{ alumno.idPersona }} </td>
+                      <td> {{ alumno.nombre }} </td>
+                      <td> {{ alumno.apellido }} </td>
+                      <td> {{ alumno.fecha_nacimiento }} </td>
+                      <td> {{ alumno.curso.codigo }} </td>
+                      <td> <a href="/alumno/modificarAlumno/?id={{alumno.idPersona}}">Modificar</a> </td>
+                      <td> <a onclick="return confirm('Estas seguro de eliminar el alumno {{alumno.nombre}} {{alumno.apellido}}?')" href="/alumno/eliminarAlumno/?id={{alumno.idPersona}}">Eliminar</a></td>
+                  </tr>
+                  {% endfor %}
+             </table>
+             <p>
+                 <a href="/alumno/">Volver</a>
+             </p>
+        </form>
+    </div>
+    {% endif %}
+</body>
+
+</html>

@@ -26,17 +26,16 @@ def curso():
 
 @app.route('/curso/crear/')
 def crearCurso():
-    return render_template("curso/crear.html")
+    return render_template("curso/crearCurso.html")
 
 
 @app.route('/curso/crearCurso/', methods=['POST', 'GET'])
 def crear():
-    if request.method == 'POST':
-        codigo = request.form['codigo']
-        curso = Curso()
-        curso.setCurso(codigo)
-        curso.insertCurso()
-        return redirect('/home')
+    codigo = request.form['codigo']
+    curso = Curso()
+    curso.setCurso(codigo)
+    curso.insertCurso()
+    return redirect('/curso/')
 
 
 # MOSTRAR CURSO
@@ -45,7 +44,7 @@ def crear():
 @app.route('/curso/mostrar/', methods=['POST', 'GET'])
 def seleccionarCurso():
     lista_cursos = Curso.getListaCurso()
-    return render_template("curso/mostrar.html", lista_cursos=lista_cursos)
+    return render_template("curso/mostrarCurso.html", lista_cursos=lista_cursos)
 
 
 # MODIFICAR CURSO
@@ -55,7 +54,7 @@ def seleccionarCurso():
 def modificar():
     idCurso = int(request.args.get("id"))
     curso = Curso.getCursoDB(idCurso)
-    return render_template("curso/modificacion.html", curso=curso)
+    return render_template("curso/modificacionCurso.html", curso=curso)
 
 
 @app.route('/curso/modificado/', methods=['POST'])
@@ -77,6 +76,50 @@ def eliminarCurso():
     curso = Curso.getCursoDB(idCurso)
     curso.eliminarCurso()
     return redirect("/curso/mostrar")
+
+
+# ALUMNO
+
+
+@app.route("/alumno/")
+def alumno():
+    return render_template("/alumno/alumno.html")
+
+
+# CREAR ALUMNO
+
+@app.route("/alumno/crearAlumno/")
+def crearAlumno():
+    return render_template('/alumno/crearAlumno.html')
+
+
+@app.route("/alumno/crear/", methods=['POST'])
+def crearA():
+    nombre = request.form["nom"]
+    apellido = request.form["apell"]
+    fecha_nacimiento = request.form["fn"]
+    curso = Curso.getCursoDB(request.form['curs'])
+
+    alumno = Alumno()
+    alumno.setNombre(nombre)
+    alumno.setApellido(apellido)
+
+    fn_split = str(fecha_nacimiento).split('/', 2)
+    alumno.setFechaNac(int(fn_split[2]), int(fn_split[1]), int(fn_split[0]))
+
+    alumno.setCurso(curso)
+
+    alumno.insertAlumno()
+    return redirect('/alumno/')
+
+# MOSTRAR ALUMNO
+
+
+@app.route('/alumno/mostrar/')
+def mostrarAlumno():
+    lista_alumnos = Alumno.selectListaAlumnos()
+    lista_cursos = Curso.getListaCurso()
+    return render_template('/alumno/mostrarAlumno.html', lista_alumnos=lista_alumnos, ver_curso=len(lista_cursos))
 
 
 if __name__ == '__main__':

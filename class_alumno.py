@@ -57,7 +57,7 @@ class Alumno(Persona):
             students_fetch = students_dictionary.fetchall()
 
         if len(students_fetch) == 0:
-            return False
+            return None
         else:
             for student in students_fetch:
                 temp_alum = Alumno()

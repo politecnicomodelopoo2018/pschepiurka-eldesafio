@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Profesor - Lista</title>
+</head>
+<body style="text-align:center">
+    {% if lista_profesores|length == 0 %}
+    <p>
+        <h1>Profesor no tiene datos ingresados</h1>
+        <a href="/profesor/">Volver</a>
+    </p>
+    {% else %}
+    <div style="float: left; margin-left: 30%">
+         <table style="width:100%">
+              <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Fecha Nacimiento</th>
+              </tr>
+              {% for profesor in lista_profesores %}
+              <tr>
+                  <td> {{ profesor.idPersona }} </td>
+                  <td> {{ profesor.nombre }} </td>
+                  <td> {{ profesor.apellido }} </td>
+                  <td> {{ profesor.fecha_nacimiento }} </td>
+                  <td> <a href="/profesor/modificarProfesor/?id={{profesor.idPersona}}">Modificar</a> </td>
+                  <td> <a onclick="return confirm('Estas seguro de eliminar el profesor {{profesor.nombre}} {{profesor.apellido}}?')" href="/profesor/eliminarProfesor/?id={{profesor.idPersona}}">Eliminar</a></td>
+              </tr>
+              {% endfor %}
+         </table>
+         <p>
+             <a href="/profesor/">Volver</a>
+         </p>
+    </div>
+    {% endif %}
+</body>
+</html>

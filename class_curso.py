@@ -29,7 +29,7 @@ class Curso(object):
             curs_fetch = curso_data.fetchall()
 
         if len(curs_fetch) == 0:
-            return False
+            return None
         temp_curs = Curso()
         temp_curs.setID(curs_fetch[0]["idCurso"])
         temp_curs.setCurso(curs_fetch[0]["codigo"])

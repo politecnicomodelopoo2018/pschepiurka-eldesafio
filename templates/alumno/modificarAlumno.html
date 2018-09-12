@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel ="stylesheet" href="../../static/main.css">
+    <title>Modificar</title>
+</head>
+<body>
+    <div style="float: left; margin-left: 40%">
+        <form action="/alumno/modificar/" method = "POST">
+            <input type="hidden" name="id" value="{{ alumno.idPersona }}">
+            <fieldset>
+                 <label>Nombre (opcional):</label> <input class="formulario" type="text" name="nom" value="{{ alumno.nombre }}"><br>
+                 <label>Apellido (opcional):</label> <input class="formulario" type="text" name="apell" value="{{ alumno.apellido }}"><br>
+                 <label>Fecha de Nacimiento (opcional):</label> <input class="formulario" type="date" name="fn" value="{{ alumno.fecha_nacimiento }}"><br>
+                 <label>Curso (opcional):</label>
+                 <select name="curs">
+                     {% for curso in lista_cursos %}
+                     {% if curso.codigo == alumno.curso.codigo %}
+                     <option selected="{{curso.codigo}}">{{curso.codigo}}</option>
+                     {% else %}
+                     <option value="{{curso.codigo}}">{{curso.codigo}}</option>
+                     {% endif %}
+                     {% endfor %}
+                 </select> <br>
+                 <input type="Submit" value="Submit">
+            </fieldset>
+        </form>
+    </div>
+</body>
+</html>

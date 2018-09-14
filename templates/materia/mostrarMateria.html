@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Materia - Lista</title>
+</head>
+<body style="text-align:center">
+    {% if ver_curso == 0 %}
+    <p>
+        <h1>Curso no tiene datos ingresados</h1>
+        <h3>Los datos en Curso son necesarios para trabajar con Materia</h3>
+        <a href="/materia/">Volver</a>
+    </p>
+    {% elif lista_materias|length == 0 %}
+    <p>
+        <h1>Materia no tiene datos ingresados</h1>
+        <a href="/materia/">Volver</a>
+    </p>
+    {% else %}
+    <div style="float: left; margin-left: 33%">
+        <form action="/materia/modificarAlumno/", method = "GET">
+             <table style="width:100%">
+                  <tr>
+                      <th>ID</th>
+                      <th>Nombre</th>
+                      <th>Curso</th>
+                      <th>Profesor</th>
+                  </tr>
+                  {% for materia in lista_materias %}
+                  <tr>
+                      <td> {{ materia.idMateria }} </td>
+                      <td> {{ materia.nombre }} </td>
+                      <td> {{ materia.curso.codigo }} </td>
+                      <td> {{ materia.profesor.nombre }} {{materia.profesor.apellido }} </td>
+                      <td> <a href="/materia/modificarMateria/?id={{materia.idMateria}}">Modificar</a> </td>
+                      <td> <a onclick="return confirm('Estas seguro de eliminar la materia {{materia.nombre}}?')" href="/materia/eliminarMateria/?id={{materia.idMateria}}">Eliminar</a></td>
+                  </tr>
+                  {% endfor %}
+             </table>
+             <p>
+                 <a href="/materia/">Volver</a>
+             </p>
+        </form>
+    </div>
+    {% endif %}
+</body>
+</html>

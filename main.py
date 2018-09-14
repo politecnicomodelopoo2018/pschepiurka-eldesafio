@@ -8,6 +8,11 @@ from class_materia import Materia
 app = Flask(__name__)
 
 
+@app.route('/login')
+def login():
+    return render_template('user_login.html')
+
+
 @app.route('/home')
 def opcion():
     return render_template("opcion.html")
@@ -249,6 +254,88 @@ def eliminarProfesor():
     profesor = Profesor.getProfesor(int(id))
     profesor.eliminarProfesor()
     return redirect('/profesor/mostrar/')
+
+
+# MATERIA
+
+
+@app.route('/materia/')
+def materia():
+    return render_template('/materia/materia.html')
+
+
+# CREAR MATERIA
+
+
+@app.route('/materia/crearMateria/')
+def crearMateria():
+    lista_curso = Curso().getListaCurso()
+    lista_profesores = Profesor().getListaProfesor()
+    return render_template('/materia/crearMateria.html', lista_curso=lista_curso, lista_profesores=lista_profesores)
+
+
+@app.route('/materia/crear/', methods=["POST"])
+def crearC():
+    nom = request.form['nom']
+    curs = Curso().getCursoDB(request.form['curs'])
+    prof = Profesor().getProfesor(int(request.form['prof']))
+
+    materia = Materia()
+    materia.setNombre(nom)
+    materia.setCurso(curs)
+    materia.setProfesor(prof)
+    materia.insertarMateria()
+    return redirect('/materia/')
+
+
+# MOSTRAR MATERIA
+
+
+@app.route('/materia/mostrar/')
+def mostrarMateria():
+    lista_materias = Materia().selectListaMaterias()
+    url = "/pepito/pepe/pepe.exe"
+    return render_template('/materia/mostrarMateria.html', lista_materias=lista_materias, url=url)
+
+
+# MODIFICAR MATERIA
+
+
+@app.route('/materia/modificarMateria/')
+def modificarMateria():
+    idMat = request.args.get('id')
+    materia = Materia().selectMateria(idMat)
+    lista_curso = Curso().getListaCurso()
+    lista_profesores = Profesor().getListaProfesor()
+    return render_template('/materia/modificarMateria.html', materia=materia, lista_curso=lista_curso, lista_profesores=lista_profesores)
+
+
+@app.route('/materia/modificar/', methods=["POST"])
+def modificar():
+    idMateria = request.form['id']
+    nom = request.form['nom']
+    curs = Curso().getCursoDB(request.form['curs'])
+    prof = Profesor().getProfesor(int(request.form['prof']))
+
+    materia = Materia().selectMateria(idMateria)
+    if nom != materia.nombre:
+        materia.setNombre(nom)
+    if curs != materia.curso:
+        materia.setCurso(curs)
+    if prof != materia.profesor:
+        materia.setProfesor(prof)
+
+    materia.actualizarMateria()
+    return redirect('/materia/mostrar/')
+
+
+@app.route('/materia/eliminarMateria/', methods=["GET"])
+def eliminarMateria():
+    id = request.args.get('id')
+    materia = Materia.selectMateria(id)
+
+    materia.borrarMateria()
+    return redirect('/materia/mostrar')
 
 
 if __name__ == '__main__':

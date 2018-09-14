@@ -1,4 +1,9 @@
 .formulario{
   display: block;
-  margin-left: 20px;
+  margin:auto;
+}
+
+.centrado{
+    max-width: 500px;
+    margin: auto;
 }

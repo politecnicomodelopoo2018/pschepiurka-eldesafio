@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel ="stylesheet" href="../../static/main.css">
+    <title>Crear</title>
+</head>
+<body>
+    <div style="float: left; margin-left: 40%">
+        <form action="/materia/crear/" method = "POST">
+            <fieldset>
+                 <label>Nombre:</label> <input class="formulario" type="text" name="nom" value="" placeholder="Ingresa el nombre la materia..."><br>
+                 <label>Profesor:</label>
+                 <select class="formulario" name="prof">
+                     {% for profesor in lista_profesores %}
+                     <option value="{{profesor.idPersona}}">{{profesor.nombre}} {{profesor.apellido}}</option>
+                     {% endfor %}
+                 </select>
+                 <label>Curso:</label>
+                 <select class="formulario" name="curs">
+                     {% for curso in lista_curso %}
+                     <option value="{{curso.codigo}}">{{curso.codigo}}</option>
+                     {% endfor %}
+                 </select> <br>
+                 <input type="Submit" value="Submit">
+            </fieldset>
+        </form>
+    </div>
+</body>
+</html>

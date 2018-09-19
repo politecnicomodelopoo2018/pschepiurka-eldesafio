@@ -8,9 +8,11 @@ from class_materia import Materia
 app = Flask(__name__)
 
 
+''' LOGIN
 @app.route('/login')
 def login():
     return render_template('user_login.html')
+'''
 
 
 @app.route('/home')
@@ -79,6 +81,10 @@ def modificadoC():
 def eliminarCurso():
     idCurso = int(request.args.get("id"))
     curso = Curso.getCursoDB(idCurso)
+    ver_alum_curso = curso.verificarAlumnosCurso()
+    if ver_alum_curso[0]['cantidad'] > 0:
+        lista_alumnos_curso = Curso.selectListaAlumnosCurso(curso)
+        return render_template("/curso/errorEliminar.html", lista_alumnos_curso=lista_alumnos_curso)
     curso.eliminarCurso()
     return redirect("/curso/mostrar")
 
@@ -110,8 +116,8 @@ def crearA():
     alumno.setNombre(nombre)
     alumno.setApellido(apellido)
 
-    fn_split = str(fecha_nacimiento).split('/', 2)
-    alumno.setFechaNac(int(fn_split[2]), int(fn_split[1]), int(fn_split[0]))
+    fn_split = str(fecha_nacimiento).split('-', 2)
+    alumno.setFechaNac(int(fn_split[0]), int(fn_split[1]), int(fn_split[2]))
 
     alumno.setCurso(curso)
 

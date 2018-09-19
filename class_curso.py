@@ -61,7 +61,29 @@ class Curso(object):
     def eliminarCurso(self):
         DB().run("delete from Curso where idCurso = " + str(self.idCurso))
 
-    def verificarCurso(self):
+    def verificarAlumnosCurso(self):
         count = DB().run("select count(*) as cantidad from Alumno where Curso_idCurso = " + str(self.idCurso))
         count_fetch = count.fetchall()
         return count_fetch
+
+    @staticmethod
+    def selectListaAlumnosCurso(curso):
+        from class_alumno import Alumno
+        temp_list_students = []
+        stud_dict = DB().run("select * from Alumno where Curso_idCurso = " + str(curso.idCurso))
+        stud_fetch = stud_dict.fetchall()
+
+        if len(stud_fetch) == 0:
+            return temp_list_students
+
+        for student in stud_fetch:
+            temp_stud = Alumno()
+            temp_stud.setID(student["idAlumno"])
+            temp_stud.setNombre(student["nombre"])
+            temp_stud.setApellido(student["apellido"])
+            temp_stud.fecha_nacimiento = student["fecha_nacimiento"]
+            temp_stud.setCurso(Curso.getCursoDB(student["Curso_idCurso"]))
+
+            temp_list_students.append(temp_stud)
+
+        return temp_list_students

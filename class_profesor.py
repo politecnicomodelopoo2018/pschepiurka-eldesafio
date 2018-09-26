@@ -71,3 +71,30 @@ class Profesor(Persona):
             temp_teach.setFechaNac(int(fecha_nac[0]), int(fecha_nac[1]), int(fecha_nac[2]))
 
         return temp_teach
+
+    def verificarMateriasProfesor(self):
+        count = DB().run('select count(*) as cantidad from Materia where Profesor_idProfesor = ' + str(self.idPersona))
+        count_fetch = count.fetchall()
+        return count_fetch
+
+    @staticmethod
+    def selectMateriasProfesor(profesor):
+        from class_materia import Materia
+        from class_curso import Curso
+        temp_list_sub = []
+        sub_dict = DB().run('select * from Materia where Profesor_idProfesor = ' + str(profesor.idPersona))
+        sub_fetch = sub_dict.fetchall()
+
+        if len(sub_fetch) == 0:
+            return temp_list_sub
+
+        for subject in sub_fetch:
+            temp_sub = Materia()
+            temp_sub.setID(subject['idMateria'])
+            temp_sub.setNombre(subject['nombre'])
+            temp_sub.setProfesor(Profesor().getProfesor(int(subject['Profesor_idProfesor'])))
+            temp_sub.setCurso(Curso.getCursoDB(int(subject['Curso_idCurso'])))
+
+            temp_list_sub.append(temp_sub)
+
+        return temp_list_sub

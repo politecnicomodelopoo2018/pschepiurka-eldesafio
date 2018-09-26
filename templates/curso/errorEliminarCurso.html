@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Error</title>
+</head>
+<body style="text-align:center">
+    <h1>Error al eliminar el curso.</h1>
+    {% if lista_materias_curso|length == 0 %}
+    <h3>Los siguientes alumnos siguen asociados al curso:</h3>
+    <div style="float: left; margin-left: 40%">
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>Nombre Completo</th>
+            </tr>
+            {% for alumno in lista_alumnos_curso %}
+            <tr>
+                <td> {{ alumno.idPersona }} </td>
+                <td> {{ alumno.nombre }} </td>
+                <td> {{ alumno.apellido }} </td>
+            </tr>
+            {% endfor %}
+        </table>
+        <a href="/curso/mostrar/">Volver</a>
+    </div>
+    {% elif lista_alumnos_curso|length == 0 %}
+    <h3>Las siguientes materias siguen asociadas al curso:</h3>
+    <div style="float: left; margin-left: 40%">
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>Nombre Materia</th>
+            </tr>
+            {% for materia in lista_materias_curso %}
+            <tr>
+                <td> {{ materia.idMateria }} </td>
+                <td> {{ materia.nombre }} </td>
+            </tr>
+            {% endfor %}
+        </table>
+        <a href="/curso/mostrar/">Volver</a>
+    </div>
+    {% else %}
+    <h3>Las siguientes materias y los siguientes alumnos siguen asociadas al curso:</h3>
+    <div style="float: left; margin-left: 40%">
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>Nombre Materia</th>
+            </tr>
+            {% for materia in lista_materias_curso %}
+            <tr>
+                <td> {{ materia.idMateria }} </td>
+                <td> {{ materia.nombre }} </td>
+            </tr>
+            {% endfor %}
+        </table>
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>Nombre Completo</th>
+            </tr>
+            {% for alumno in lista_alumnos_curso %}
+            <tr>
+                <td> {{ alumno.idPersona }} </td>
+                <td> {{ alumno.nombre }} {{ alumno.apellido }} </td>
+            </tr>
+            {% endfor %}
+        </table>
+        <a href="/curso/mostrar/">Volver</a>
+    </div>
+    {% endif %}
+</body>
+</html>

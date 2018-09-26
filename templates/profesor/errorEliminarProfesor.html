@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Error</title>
+</head>
+<body style="text-align:center">
+    <h1>Error al eliminar el profesor.</h1>
+    <h3>Las siguientes materias siguen asociadas al profesor:</h3>
+    <div style="float: left; margin-left: 40%">
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+            </tr>
+            {% for materia in lista_materias_profesor %}
+            <tr>
+                <td> {{ materia.idMateria }} </td>
+                <td> {{ materia.nombre }} </td>
+            </tr>
+            {% endfor %}
+        </table>
+        <a href="/profesor/mostrar/">Volver</a>
+    </div>
+</body>
+</html>

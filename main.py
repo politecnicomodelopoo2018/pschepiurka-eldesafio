@@ -82,9 +82,12 @@ def eliminarCurso():
     idCurso = int(request.args.get("id"))
     curso = Curso.getCursoDB(idCurso)
     ver_alum_curso = curso.verificarAlumnosCurso()
-    if ver_alum_curso[0]['cantidad'] > 0:
+    ver_mat_curso = curso.verificarMateriasCurso()
+    if ver_alum_curso[0]['cantidad'] > 0 or ver_mat_curso[0]['cantidad'] > 0:
         lista_alumnos_curso = Curso.selectListaAlumnosCurso(curso)
-        return render_template("/curso/errorEliminar.html", lista_alumnos_curso=lista_alumnos_curso)
+        lista_materias_curso = Curso.selectListaMateriasCurso(curso)
+        return render_template("/curso/errorEliminarCurso.html", lista_alumnos_curso=lista_alumnos_curso,
+                               lista_materias_curso=lista_materias_curso)
     curso.eliminarCurso()
     return redirect("/curso/mostrar")
 
@@ -258,6 +261,10 @@ def modificarP():
 def eliminarProfesor():
     id = request.args.get('id')
     profesor = Profesor.getProfesor(int(id))
+    verif_materias = profesor.verificarMateriasProfesor()
+    if verif_materias[0]['cantidad'] > 0:
+        lista_materias_profesor = Profesor().selectMateriasProfesor(profesor)
+        return render_template('/profesor/errorEliminarProfesor.html', lista_materias_profesor=lista_materias_profesor)
     profesor.eliminarProfesor()
     return redirect('/profesor/mostrar/')
 

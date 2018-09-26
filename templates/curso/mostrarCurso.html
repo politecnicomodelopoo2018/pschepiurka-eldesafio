@@ -11,20 +11,23 @@
         <a href="/curso/">Volver</a>
     </p>
     {% else %}
-    <div style="float: left; margin-left: 35%">
+    <div style="float: left; margin-left: 30%">
         <form action="/curso/modificarCurso/", method = "GET">
              <table>
                   <tr>
                     <th>ID</th>
                     <th>Codigo</th>
                     <th>Cantidad de Alumnos</th>
+                    <th>Cantidad de Materias</th>
                   </tr>
                   {% for curso in lista_cursos %}
                   {% set cant_alumnos = curso.verificarAlumnosCurso() %}
+                  {% set cant_materias = curso.verificarMateriasCurso() %}
                   <tr>
                       <td> {{ curso.idCurso }} </td>
                       <td> {{ curso.codigo }} </td>
                       <td> {{ cant_alumnos[0]['cantidad']  }} </td>
+                      <td> {{ cant_materias[0]['cantidad'] }} </td>
                       <td> <a href="/curso/modificarCurso/?id={{curso.idCurso}}">Modificar</a> </td>
                       <td> <a onclick="return confirm('Estas seguro de eliminar el curso {{curso.codigo}}?')" href="/curso/eliminarCurso/?id={{curso.idCurso}}">Eliminar</a></td>
                   </tr>

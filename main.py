@@ -91,6 +91,13 @@ def eliminarCurso():
     curso.eliminarCurso()
     return redirect("/curso/mostrar")
 
+# MOSTRAR ALUMNOS DE X CURSO
+
+
+@app.route('/materia/mostrarAlumnos/')
+def mostrarAlumnosCurso():
+    pass
+
 
 # ALUMNO
 

@@ -94,10 +94,12 @@ def eliminarCurso():
 # MOSTRAR ALUMNOS DE X CURSO
 
 
-@app.route('/materia/mostrarAlumnos/')
+@app.route('/curso/mostrarAlumnos/')
 def mostrarAlumnosCurso():
-    pass
+    lista_cursos = Curso().getListaCurso()
+    return render_template("/curso/mostrarAlumnos.html", lista_cursos=lista_cursos)
 
+@app.route('')
 
 # ALUMNO
 

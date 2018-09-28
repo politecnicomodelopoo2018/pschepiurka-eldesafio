@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Alumnos del Curso</title>
+</head>
+<body>
+    <a>
+        <select name="curs">
+            {% for curso in lista_cursos %}
+            <option value="{{curso.idCurso}}">{{curso.codigo}}</option>
+            {% endfor %}
+        </select>
+        <input type="submit" value="Seleccionar" onclick="document.location.reload(true)">
+    </a>
+</body>
+</html>

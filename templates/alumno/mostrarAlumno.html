@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="stylesheet" href="../../static/main.css">
     <meta charset="UTF-8">
     <title>Alumno - Lista</title>
 </head>
@@ -16,7 +17,7 @@
         <a href="/alumno/">Volver</a>
     </p>
     {% else %}
-    <div style="float: left; margin-left: 30%">
+    <div id="center">
         <form action="/alumno/modificarAlumno/", method = "GET">
              <table style="width:100%">
                   <tr>

@@ -99,7 +99,15 @@ def mostrarAlumnosCurso():
     lista_cursos = Curso().getListaCurso()
     return render_template("/curso/mostrarAlumnos.html", lista_cursos=lista_cursos)
 
-@app.route('')
+
+@app.route('/curso/alumnosCurso/', methods=["POST"])
+def alumnosCurso():
+    idCurso = request.form["idCurso"]
+    curso = Curso().getCursoDB(int(idCurso))
+    lista_cursos = Curso().getListaCurso()
+    lista_alumnos_curso = Curso().selectListaAlumnosCurso(curso)
+    return render_template("/curso/alumnosCurso.html", lista_alumnos_curso=lista_alumnos_curso, lista_cursos=lista_cursos, idCursoAnterior=int(idCurso))
+
 
 # ALUMNO
 

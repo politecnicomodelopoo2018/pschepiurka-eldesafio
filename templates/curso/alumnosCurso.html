@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="../../static/main.css">
+    <meta charset="UTF-8">
+    <title>Alumnos del Curso</title>
+</head>
+<body style="text-align:center">
+    <div id="center">
+        <form action="/curso/alumnosCurso/" method="POST">
+            <a>
+                <select name="idCurso">
+                    {% for curso in lista_cursos %}
+                    {% if curso.idCurso == idCursoAnterior %}
+                    <option value="{{curso.idCurso}}" selected>{{curso.codigo}}</option>
+                    {% else %}
+                    <option value="{{curso.idCurso}}">{{curso.codigo}}</option>
+                    {% endif %}
+                    {% endfor %}
+                </select>
+                <button type="submit">Seleccionar</button>
+            </a>
+        </form>
+        {% if lista_alumnos_curso|length == 0 %}
+        <h2>Este curso no tiene alumnos.</h2>
+        {% else %}
+        <table style="width:100%">
+            <tr>
+                <th >ID</th>
+                <th>Nombre del Alumno</th>
+                <th>Fecha de Nacimiento</th>
+            </tr>
+            {% for alumno in lista_alumnos_curso %}
+            <tr>
+                <td>{{ alumno.idPersona }}</td>
+                <td>{{ alumno.nombre }} {{ alumno.apellido }}</td>
+                <td>{{ alumno.fecha_nacimiento }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        {% endif %}
+    </div>
+    <a href="/curso/">Volver</a>
+</body>
+</html>

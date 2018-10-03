@@ -4,14 +4,16 @@
     <meta charset="UTF-8">
     <title>Alumnos del Curso</title>
 </head>
-<body>
-    <a>
-        <select name="curs">
-            {% for curso in lista_cursos %}
-            <option value="{{curso.idCurso}}">{{curso.codigo}}</option>
-            {% endfor %}
-        </select>
-        <input type="submit" value="Seleccionar" onclick="document.location.reload(true)">
-    </a>
+<body style="text-align:center">
+    <form action="/curso/alumnosCurso/" method="POST">
+        <a>
+            <select name="idCurso">
+                {% for curso in lista_cursos %}
+                <option value="{{curso.idCurso}}">{{curso.codigo}}</option>
+                {% endfor %}
+            </select>
+            <button type="submit">Seleccionar</button>
+        </a>
+    </form>
 </body>
 </html>

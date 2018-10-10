@@ -7,10 +7,15 @@
 </head>
 <body class="centrado" style="text-align:center">
 <div style="text-align:center">
-    <form action="/home", methods="POST">
+    <form action="/verificacion/", method="POST">
         <fieldset>
-            <label>Usuario</label> <input class="formulario" type="text" name="name" value="" placeholder="Ingrese el usuario..."><br>
+            {% if user != "" %}
+            <label>Usuario</label> <input class="formulario" type="text" name="user" value="{{user}}" placeholder="Ingrese el usuario..."><br>
+            {% else %}
+            <label>Usuario</label> <input class="formulario" type="text" name="user" value="" placeholder="Ingrese el usuario..."><br>
+            {% endif %}
             <label>Contraseña</label> <input class="formulario" type="text" name="passwd" value="" placeholder="Ingrese la contraseña"><br>
+            <button type="submit">Logearse</button>
         </fieldset>
     </form>
 </div>

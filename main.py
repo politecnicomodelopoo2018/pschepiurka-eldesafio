@@ -8,14 +8,34 @@ from class_materia import Materia
 app = Flask(__name__)
 
 
-''' LOGIN
+# LOGIN
+
+
 @app.route('/login')
 def login():
+    if 'user' in request.args:
+        usuario = request.args.get('user')
+        return render_template('user_login.html', user=usuario)
     return render_template('user_login.html')
-'''
 
 
-@app.route('/home')
+@app.route('/verificacion/', methods=["POST"])
+def verificacion():
+    usuario = request.form['user']
+    contraseña = request.form['passwd']
+    if usuario == '':
+        return redirect('/login')
+    elif contraseña == '':
+        return redirect(url_for('.login', user=usuario))
+
+    return redirect('/home')
+
+
+
+# MAIN PAGE
+
+
+@app.route('/home/')
 def opcion():
     return render_template("opcion.html")
 

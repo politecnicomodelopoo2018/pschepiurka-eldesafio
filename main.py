@@ -3,9 +3,41 @@ from class_alumno import Alumno
 from class_curso import Curso
 from class_profesor import Profesor
 from class_materia import Materia
+from class_pregunta import Pregunta
+from class_nota import Nota
+from class_familia import Familia
 
 
 app = Flask(__name__)
+
+
+# LOGIN
+
+
+def Session():
+    if not 'idUser' in session:
+        session['idUser'] = session.get('idUser')
+
+
+# REGISTROS
+
+
+@app.route('/signup/admin/')
+def signupAdmin():
+    pregunta_random = Pregunta().getPreguntaRandom()
+    return render_template('/login_templates/admin_signup.html', pregunta_random=pregunta_random)
+
+
+@app.route('/signup/admin/verificacion')
+def verifAdmin():
+    pregunta = Pregunta().getPregunta(int(request.form['idPregunta']))
+    user = request.form['user']
+    passwd = request.form['passwd']
+    respuesta = request.form['respuesta']
+
+    if respuesta == pregunta.respuesta:
+        pass
+
 
 
 # LOGIN
@@ -27,6 +59,7 @@ def verificacion():
         return redirect('/login')
     elif contraseña == '':
         return redirect(url_for('.login', user=usuario))
+
 
     return redirect('/home')
 

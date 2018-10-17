@@ -51,7 +51,7 @@ class Pregunta(object):
 
     @staticmethod
     def getPregunta(idPreg):
-        preg = DB().run("select * from Pregunta where idPregunta = " + str(idPreg))
+        preg = DB().run("select * from Pregunta_Seguridad where idPregunta = " + str(idPreg))
         preg_fetch = preg.fetchall()
 
         temp_preg = Pregunta()

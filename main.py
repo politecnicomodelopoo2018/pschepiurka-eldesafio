@@ -6,6 +6,7 @@ from class_materia import Materia
 from class_pregunta import Pregunta
 from class_nota import Nota
 from class_familia import Familia
+from class_usuario import Usuario
 
 
 app = Flask(__name__)
@@ -25,10 +26,10 @@ def Session():
 @app.route('/signup/admin/')
 def signupAdmin():
     pregunta_random = Pregunta().getPreguntaRandom()
-    return render_template('/login_templates/admin_signup.html', pregunta_random=pregunta_random)
+    return render_template('/login_templates/admin_signup.html', pregunta_random=pregunta_random, signup_ver=None)
 
 
-@app.route('/signup/admin/verificacion')
+@app.route('/signup/admin/verificacion', methods=["POST"])
 def verifAdmin():
     pregunta = Pregunta().getPregunta(int(request.form['idPregunta']))
     user = request.form['user']
@@ -36,7 +37,17 @@ def verifAdmin():
     respuesta = request.form['respuesta']
 
     if respuesta == pregunta.respuesta:
-        pass
+        temp_user = Usuario()
+        temp_user.setUsuario(user)
+        temp_user.setContraseña(passwd)
+
+        temp_user.insertarUsuarioAdmin()
+
+        return redirect('/home')
+
+    else:
+        pregunta_random = Pregunta().getPreguntaRandom()
+        return render_template("/login_templates/admin_signup.html", pregunta_random=pregunta_random, signup_ver=False)
 
 
 

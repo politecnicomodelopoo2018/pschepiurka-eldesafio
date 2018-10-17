@@ -7,13 +7,18 @@
 <body>
     <div style="text-align:center">
         <form action="/signup/admin/verificacion", method="POST">
-            <input type="hidden" name="idPregunta" value="{{ pregunta.idPregunta }}">
+            <input type="hidden" name="idPregunta" value="{{ pregunta_random.idPregunta }}">
             <fieldset>
                 <h3>REGISTRESE COMO ADMINISTRADOR</h3>
                 <label>Usuario</label><br><input class="formulario" type="text" name="user" value="" placeholder="Ingrese un usuario..."><br>
-                <label>Contraseña</label><br><input class="formulario" type="text" name="passwd" value="" placeholder="Ingrese una contraseña..."><br>
+                <label>Contraseña</label><br><input class="formulario" type="password" name="passwd" value="" placeholder="Ingrese una contraseña..."><br>
+                {% if signup_ver == None %}
                 <h4>Pregunta</h4><a>{{pregunta_random.pregunta}}</a><br><input class="formulario" type="text" name="respuesta" value="" placeholder="Responda la pregunta correctamente..."><br>
-                <button type="submit">Logearse</button>
+                {% else %}
+                <h4 style="color:red">Respuesta Incorrecta, responda la siguiente pregunta correctamente</h4>
+                <a>{{pregunta_random.pregunta}}</a><br><input class="formulario" type="text" name="respuesta" value="" placeholder="Responda la pregunta correctamente..."><br>
+                {% endif %}
+                <button type="submit">Registrarse</button>
             </fieldset>
         </form>
     </div>

@@ -3,8 +3,6 @@ from db import DB
 class Familia(object):
     idFamilia = None
     nombre = None
-    usuario = None
-    contraseña = None
 
     def setID(self, id):
         self.idFamilia = id
@@ -12,12 +10,16 @@ class Familia(object):
     def setNombre(self, nom):
         self.nombre = nom
 
-    def setUsuario(self, user):
-        self.usuario = user
+    @staticmethod
+    def getFamilia(idFamilia):
+        family = DB().run('select * from Familia where idFamilia = ' + str(idFamilia))
+        fam_fetch = family.fetchall()
 
-    def setContraseña(self, passwd):
-        self.contraseña = passwd
+        temp_fam = Familia()
+        temp_fam.setID(fam_fetch[0]['idFamilia'])
+        temp_fam.setNombre(fam_fetch[0]['nombre'])
 
+        return temp_fam
 
     def insertFamilia(self):
         DB().run("insert into Familia values(NULL, '"

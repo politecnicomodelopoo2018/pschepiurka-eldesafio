@@ -10,6 +10,7 @@ from class_usuario import Usuario
 
 
 app = Flask(__name__)
+app.secret_key = 'alumnoipm'
 
 
 # LOGIN
@@ -50,30 +51,28 @@ def verifAdmin():
         return render_template("/login_templates/admin_signup.html", pregunta_random=pregunta_random, signup_ver=False)
 
 
-
 # LOGIN
 
 
-@app.route('/login')
-def login():
-    if 'user' in request.args:
-        usuario = request.args.get('user')
-        return render_template('user_login.html', user=usuario)
-    return render_template('user_login.html')
+@app.route('/login/adminLogin', methods=["POST", "GET"])
+def adminLogin():
+    if 'user' in request.form:
+        usuario = request.form[0]['user']
+        return render_template('/login_templates/admin_login.html', user=usuario)
+    return render_template('/login_templates/admin_login.html')
 
 
-@app.route('/verificacion/', methods=["POST"])
+@app.route('/login/verificacion', methods=["POST"])
 def verificacion():
     usuario = request.form['user']
     contraseña = request.form['passwd']
-    if usuario == '':
-        return redirect('/login')
-    elif contraseña == '':
-        return redirect(url_for('.login', user=usuario))
-
-
-    return redirect('/home')
-
+    if Usuario().verificarUsuario(usuario, contraseña) is True:
+        user = Usuario().getUsuario(usuario)
+        if user.tipoUsuario == 1:
+            if not 'userid' in session:
+                session['userid'] = user.idUsuario
+            return redirect('/home')
+    return redirect('/login/adminLogin')
 
 
 # MAIN PAGE

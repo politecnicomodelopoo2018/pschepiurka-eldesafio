@@ -27,7 +27,12 @@ class Profesor(Persona):
     def getListaProfesor():
         temp_teacher_list = []
         teacher_dictionary = DB().run("select * from Profesor")
-        for teacher in teacher_dictionary:
+        teacher_fetch = teacher_dictionary.fetchall()
+
+        if len(teacher_fetch) == 0:
+            return temp_teacher_list
+
+        for teacher in teacher_fetch:
             temp_teach = Profesor()
             temp_teach.setID(teacher["idProfesor"])
             temp_teach.setNombre(teacher["nombre"])

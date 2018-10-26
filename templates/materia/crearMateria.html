@@ -5,7 +5,17 @@
     <link rel ="stylesheet" href="../../static/main.css">
     <title>Crear</title>
 </head>
-<body>
+<body style="text-align:center">
+    {% if lista_curso|length == 0 and lista_profesores|length == 0 %}
+    <h2>No hay cursos ni profesores para trabajar.</h2>
+    <a href="/home">Volver</a>
+    {% elif lista_curso|length == 0 %}
+    <h2>No hay cursos para trabajar.</h2>
+    <a href="/home">Volver</a>
+    {% elif lista_profesores|length == 0 %}
+    <h2>No hay profesores para trabajar.</h2>
+    <a href="/home">Volver</a>
+    {% else %}
     <div style="float: left; margin-left: 40%">
         <form action="/materia/crear/" method = "POST">
             <fieldset>
@@ -26,5 +36,6 @@
             </fieldset>
         </form>
     </div>
+    {% endif %}
 </body>
 </html>

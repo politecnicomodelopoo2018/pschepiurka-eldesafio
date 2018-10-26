@@ -75,11 +75,22 @@ def verificacion():
     return redirect('/login/adminLogin')
 
 
+# LOGOUT
+
+
+@app.route("/logout/")
+def logout():
+    if 'userid' in session:
+        session.pop('userid', None)
+    return redirect("/login/adminLogin")
+
 # MAIN PAGE
 
 
 @app.route('/home/')
 def opcion():
+    if not 'userid' in session:
+        return redirect('/login/adminLogin')
     return render_template("opcion.html")
 
 
@@ -154,6 +165,7 @@ def eliminarCurso():
     curso.eliminarCurso()
     return redirect("/curso/mostrar")
 
+
 # MOSTRAR ALUMNOS DE X CURSO
 
 
@@ -170,6 +182,72 @@ def alumnosCurso():
     lista_cursos = Curso().getListaCurso()
     lista_alumnos_curso = Curso().selectListaAlumnosCurso(curso)
     return render_template("/curso/alumnosCurso.html", lista_alumnos_curso=lista_alumnos_curso, lista_cursos=lista_cursos, idCursoAnterior=int(idCurso))
+
+
+# FAMILIA
+
+@app.route("/familia/")
+def familia():
+    return render_template("/familia/familia.html")
+
+
+@app.route("/familia/mostrar/")
+def mostrarFamilia():
+    lista_familia = Familia().selectListaFamilia()
+    return render_template("/familia/mostrarFamilia.html", lista_familia=lista_familia)
+
+
+# CREAR FAMILIA
+
+
+@app.route("/familia/crearFamilia/")
+def crearFamilia():
+    return render_template("/familia/crearFamilia.html")
+
+
+@app.route("/familia/crearF/", methods=["POST"])
+def crearF():
+    nombre_familia = request.form["n_familia"]
+
+    temp_familia = Familia()
+    temp_familia.setNombre(nombre_familia)
+    temp_familia.insertFamilia()
+
+    return redirect("/familia/")
+
+
+# MODIFICAR FAMILIA
+
+
+@app.route("/familia/modificarFamilia/", methods=["GET"])
+def modificarFamilia():
+    idFamilia = int(request.args.get("id"))
+    temp_fam = Familia().getFamilia(idFamilia)
+    return render_template("/familia/modificarFamilia.html", temp_fam=temp_fam)
+
+
+@app.route("/familia/modificarF/", methods=["POST", "GET"])
+def modificarF():
+    idFamilia = int(request.form.get("id"))
+    new_nombre = request.form["nombreFam"]
+    temp_fam = Familia().getFamilia(idFamilia)
+
+    temp_fam.setNombre(new_nombre)
+    temp_fam.updateFamilia()
+
+    return redirect("/familia/mostrar/")
+
+
+# ELIMINAR FAMILIA
+
+
+@app.route("/familia/eliminarFamilia/", methods=["POST", "GET"])
+def eliminarFamilia():
+    id = request.args.get("id")
+    temp_fam = Familia().getFamilia(id)
+
+    temp_fam.deleteFamilia()
+    return redirect("/familia/mostrar")
 
 
 # ALUMNO

@@ -1,5 +1,6 @@
 from db import DB
 
+
 class Nota(object):
     idNota = None
     materia = None

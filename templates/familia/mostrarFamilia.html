@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="../../static/main.css">
+    <meta charset="UTF-8">
+    <title>Familia - Mostrar</title>
+</head>
+<body style="text-align:center">
+    {% if lista_familia|length == 0 %}
+    <p>
+        <h1>Familia no tiene datos ingresados</h1>
+        <a href="/familia/">Volver</a>
+    </p>
+    {% else %}
+    <div id="center">
+        <form action="/familia/modificarFamilia/", method = "GET">
+             <table>
+                  <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Cantidad de Miembros</th>
+                  </tr>
+                  {% for familia in lista_familia %}
+                  {% set cant_miembros = familia.getCantidadMiembros() %}
+                  <tr>
+                      <td> {{ familia.idFamilia }} </td>
+                      <td> {{ familia.nombre }} </td>
+                      <td> {{ cant_miembros }} </td>
+                      <td> <a href="/familia/modificarFamilia/?id={{familia.idFamilia}}">Modificar</a> </td>
+                      <td> <a onclick="return confirm('Estas seguro de eliminar la familia {{familia.nombre}}?')" href="/familia/eliminarFamilia/?id={{familia.idFamilia}}">Eliminar</a></td>
+                  </tr>
+                  {% endfor %}
+             </table>
+             <p>
+                 <a href="/familia/">Volver</a>
+             </p>
+        </form>
+    </div>
+    {% endif %}
+</body>
+</html>

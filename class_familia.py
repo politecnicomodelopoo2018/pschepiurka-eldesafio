@@ -21,16 +21,35 @@ class Familia(object):
 
         return temp_fam
 
+    @staticmethod
+    def selectListaFamilia():
+        temp_family_list = []
+        family = DB().run('select * from Familia')
+        family_fetch = family.fetchall()
+
+        if len(family_fetch) == 0:
+            return temp_family_list
+
+        for family in family_fetch:
+            temp_family = Familia()
+            temp_family.setID(family["idFamilia"])
+            temp_family.setNombre(family["nombre"])
+
+            temp_family_list.append(temp_family)
+
+        return temp_family_list
+
+    def getCantidadMiembros(self):
+        cant_fam = DB().run("select count(*) as Cantidad from Alumno where Familia_idFamilia = '" + str(self.idFamilia) + "'")
+        cant_fetch = cant_fam.fetchall()
+        return cant_fetch[0]["Cantidad"]
+
     def insertFamilia(self):
         DB().run("insert into Familia values(NULL, '"
-                 + self.nombre + "', '"
-                 + self.usuario + "', '"
-                 + self.contraseña + "')")
+                 + self.nombre + "')")
 
     def updateFamilia(self):
         DB().run("update Familia set nombre = '" + self.nombre +
-                 "', usuario = '" + self.usuario +
-                 "', contraseña = '" + self.contraseña +
                  "' where idFamilia = " + str(self.idFamilia))
 
     def deleteFamilia(self):

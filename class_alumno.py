@@ -1,24 +1,30 @@
 from class_persona import Persona
 from db import DB
 from class_curso import Curso
+from class_familia import Familia
 
 
 class Alumno(Persona):
     curso = None
+    familia = None
 
     def setCurso(self, curso):
         self.curso = curso
 
+    def setFamilia(self, familia):
+        self.familia = familia
+
     def insertAlumno(self):
-        DB().run("insert into Alumno values(NULL, '%s', '%s', '%s', %i)"
-                 % (self.nombre, self.apellido, str(self.fecha_nacimiento), self.curso.idCurso))
+        DB().run("insert into Alumno values(NULL, '%s', '%s', '%s', %i, %i)"
+                 % (self.nombre, self.apellido, str(self.fecha_nacimiento), self.curso.idCurso, self.familia.idFamilia))
 
     def actualizarAlumno(self):
         DB().run("update Alumno set nombre = '" + self.nombre +
                  "', apellido = '" + self.apellido +
                  "', fecha_nacimiento = '" + str(self.fecha_nacimiento) +
-                 "', Curso_idCurso = " + str(self.curso.idCurso)
-                 + " where idAlumno = " + str(self.idPersona) + ";")
+                 "', Curso_idCurso = " + str(self.curso.idCurso) +
+                 ", Familia_idFamilia = " + str(self.familia.idFamilia)+
+                 " where idAlumno = " + str(self.idPersona) + ";")
 
     @staticmethod
     def selectListaAlumnos():
@@ -34,6 +40,7 @@ class Alumno(Persona):
             temp_student.setFechaNac(int(fecha_nac[0]), int(fecha_nac[1]), int(fecha_nac[2]))
 
             temp_student.setCurso(Curso.getCursoDB(student["Curso_idCurso"]))
+            temp_student.setFamilia(Familia.getFamilia(student["Familia_idFamilia"]))
             temp_students_list.append(temp_student)
 
         return temp_students_list
@@ -65,8 +72,7 @@ class Alumno(Persona):
                 temp_alum.setNombre(student["nombre"])
                 temp_alum.setApellido(student["apellido"])
                 temp_alum.setCurso(Curso().getCursoDB(student["Curso_idCurso"]))
-
-                #fecha_spliteada = str(student)
+                temp_alum.setFamilia(Familia().getFamilia(student["Familia_idFamilia"]))
 
                 temp_alum.fecha_nacimiento = student["fecha_nacimiento"]
             return temp_alum

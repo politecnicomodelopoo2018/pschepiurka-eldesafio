@@ -5,6 +5,9 @@
     <title>Alumnos del Curso</title>
 </head>
 <body style="text-align:center">
+    {% if lista_cursos|length == 0 %}
+    <h2>Curso no tiene datos ingresados.</h2>
+    {% else %}
     <form action="/curso/alumnosCurso/" method="POST">
         <a>
             <select name="idCurso">
@@ -15,5 +18,7 @@
             <button type="submit">Seleccionar</button>
         </a>
     </form>
+    {% endif %}
+    <a href="/curso/">Volver</a>
 </body>
 </html>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Registro - Profesor</title>
+</head>
+<body>
+    <div style="text-align:center">
+        <form action="/signup/profesor/crear", method="POST">
+            <fieldset>
+                <h3>REGISTRESE COMO PROFESOR</h3>
+                {% if error == True %}
+                <h4 style="color:red">El nombre no esta registrado en la Base de Datos, corrija el nombre.</h4>
+                {% endif %}
+                <label>Nombre Completo</label><br><input class="formulario" type="text" name="fullname" value="" placeholder="Ingrese su nombre completo..."><br>
+                <label>Usuario</label><br><input class="formulario" type="text" name="user" value="" placeholder="Ingrese un usuario..."><br>
+                <label>Contraseña</label><br><input class="formulario" type="password" name="passwd" value="" placeholder="Ingrese una contraseña..."><br>
+                <button type="submit">Registrarse</button>
+            </fieldset>
+        </form>
+    </div>
+</body>
+</html>

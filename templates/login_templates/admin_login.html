@@ -8,10 +8,15 @@
 <div style="text-align:center">
         <form action="/login/verificacion", method="POST">
             <fieldset>
-                <h4>LOGEESE COMO ADMINISTRADOR</h4>
+                <h4>LOGUEESE COMO ADMINISTRADOR</h4>
+                {% if usuarioAnterior == None %}
                 <label>Usuario</label><br><input class="formulario" type="text" name="user" value="" placeholder="Ingrese el usuario..."><br>
+                {% else %}
+                <label>Usuario</label><br><input class="formulario" type="text" name="user" value="{{usuarioAnterior}}" placeholder="Ingrese el usuario..."><br>
+                {% endif %}
                 <label>Contraseña</label><br><input class="formulario" type="password" name="passwd" value="" placeholder="Ingrese la contraseña..."><br>
-                <button type="submit">Logearse</button>
+                <button type="submit">Logearse</button> <br><br>
+                <h6>¿No estas registrado? Registrate dando <a href="/signup/admin/">click acá.</a></h6>
             </fieldset>
         </form>
     </div>

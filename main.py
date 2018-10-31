@@ -23,6 +23,7 @@ def Session():
 
 # REGISTROS
 
+# ADMIN #
 
 @app.route('/signup/admin/')
 def signupAdmin():
@@ -50,30 +51,56 @@ def verifAdmin():
         pregunta_random = Pregunta().getPreguntaRandom()
         return render_template("/login_templates/admin_signup.html", pregunta_random=pregunta_random, signup_ver=False)
 
+# PROFESOR
+
+
+@app.route('/signup/profesor/')
+def signupProfesor():
+    error = False
+    return render_template("/login_templates/profesor/profesor_signup.html", error=error)
+
+@app.route('/signup/profesor/crear', methods=["POST"])
+def crearUsuarioProfesor():
+    nombre_completo = request.form["fullname"]
+    usuario = request.form["user"]
+    contraseña = request.form["passwd"]
+
+    temp_prof = Profesor().getProfesor(nombre_completo)
+    if temp_prof == False:
+        return render_template("/login_templates/profesor/profesor_signup.html", error=True)
+
+    else:
+        redirect("/home")
+
 
 # LOGIN
-
+# ADMIN #
 
 @app.route('/login/adminLogin', methods=["POST", "GET"])
 def adminLogin():
     if 'user' in request.form:
         usuario = request.form[0]['user']
         return render_template('/login_templates/admin_login.html', user=usuario)
-    return render_template('/login_templates/admin_login.html')
+    return render_template('/login_templates/admin_login.html', usuarioAnterior=None)
 
 
 @app.route('/login/verificacion', methods=["POST"])
 def verificacion():
     usuario = request.form['user']
     contraseña = request.form['passwd']
-    if Usuario().verificarUsuario(usuario, contraseña) is True:
+    if Usuario().verificarUsuario(usuario, contraseña) is False:
+        return render_template('/login_templates/admin_login.html', usuarioAnterior=usuario)
+    else:
         user = Usuario().getUsuario(usuario)
         if user.tipoUsuario == 1:
             if not 'userid' in session:
                 session['userid'] = user.idUsuario
             return redirect('/home')
-    return redirect('/login/adminLogin')
 
+
+
+# PROFESOR #
+# FAMILIA #
 
 # LOGOUT
 
@@ -91,7 +118,15 @@ def logout():
 def opcion():
     if not 'userid' in session:
         return redirect('/login/adminLogin')
-    return render_template("opcion.html")
+
+    user = Usuario().getUsuario(int(session['userid']))
+
+    if type(user.tipoUsuario) is Profesor():
+        return render_template("opcion.html", user=user, ver="Es Profesor")
+    elif type(user.tipoUsuario) is Familia():
+        return render_template("opcion.html", user=user, ver="Es Familia")
+    elif user.tipoUsuario == 1:
+        return render_template("opcion.html", user=user, ver="Es Admin")
 
 
 # CURSO
@@ -263,7 +298,8 @@ def alumno():
 @app.route("/alumno/crearAlumno/")
 def crearAlumno():
     lista_cursos = Curso.getListaCurso()
-    return render_template('/alumno/crearAlumno.html', lista_cursos=lista_cursos)
+    lista_familias = Familia().selectListaFamilia()
+    return render_template('/alumno/crearAlumno.html', lista_cursos=lista_cursos, lista_familias=lista_familias)
 
 
 @app.route("/alumno/crear/", methods=['POST'])
@@ -272,6 +308,7 @@ def crearA():
     apellido = request.form["apell"]
     fecha_nacimiento = request.form["fn"]
     curso = Curso.getCursoDB(request.form['curs'])
+    familia = Familia.getFamilia(request.form['fam'])
 
     alumno = Alumno()
     alumno.setNombre(nombre)
@@ -281,6 +318,7 @@ def crearA():
     alumno.setFechaNac(int(fn_split[0]), int(fn_split[1]), int(fn_split[2]))
 
     alumno.setCurso(curso)
+    alumno.setFamilia(familia)
 
     alumno.insertAlumno()
     return redirect('/alumno/')

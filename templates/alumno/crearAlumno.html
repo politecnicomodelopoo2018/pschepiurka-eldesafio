@@ -22,6 +22,12 @@
                      <option value="{{curso.codigo}}">{{curso.codigo}}</option>
                      {% endfor %}
                  </select> <br>
+                 <label>Familia:</label>
+                 <select name="fam">
+                     {% for familia in lista_familias %}
+                     <option value="{{familia.idFamilia}}">{{familia.nombre}}</option>
+                     {% endfor %}
+                 </select> <br>
                  <input type="Submit" value="Submit">
             </fieldset>
         </form>

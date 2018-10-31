@@ -28,6 +28,8 @@ class Usuario(object):
     def verificarUsuario(user, passwd):
         temp_user = DB().run("select * from Usuario where usuario = '" + user + "'")
         temp_fetch = temp_user.fetchall()
+        if len(temp_fetch) == 0:
+            return False
         if temp_fetch[0]["contraseña"] == str(hashlib.sha256(passwd.encode('utf-8')).hexdigest()):
             return True
 
@@ -35,8 +37,14 @@ class Usuario(object):
 
     @staticmethod
     def getUsuario(user):
-        usuario = DB().run("select * from Usuario where Usuario = '" + user + "'")
+        if type(user) is not int:
+            usuario = DB().run("select * from Usuario where Usuario = '" + user + "'")
+        else:
+            usuario = DB().run("select * from Usuario where idUsuario = " + str(user))
+
         usu_fetch = usuario.fetchall()
+        if len(usu_fetch) == 0:
+            return None
 
         if usu_fetch[0]["idFamilia"] is None and usu_fetch[0]['idProfesor'] is None:
             temp_user = Usuario()
@@ -64,8 +72,6 @@ class Usuario(object):
             temp_user.setContraseña(usu_fetch[0]['contraseña'])
 
             return temp_user
-
-        return False
 
     def insertarUsuarioFamilia(self):
         DB().run("insert into Usuario values(NULL, "
